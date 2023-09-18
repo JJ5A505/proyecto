@@ -1,0 +1,8 @@
+.button{
+    -fx-text-fill: rgb(0,0,0);
+    -fx-border-color: rgb(0,1000,1000);
+    -fx-border-radius:10;
+    -fx-background-color: linear-gradient(rgb(500,500,500),rgb(200,400,600));
+
+
+}

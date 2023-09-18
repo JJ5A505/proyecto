@@ -1,0 +1,27 @@
+.root{
+    -fx-background-image: url("https://i0.wp.com/celaya.tecnm.mx/wp-content/uploads/2022/04/FACHADA-scaled.jpg?fit=2560%2C1707&ssl=1")
+,url("https://celaya.tecnm.mx/wp-content/uploads/2021/02/cropped-FAV.png");
+   -fx-background-repeat: no-repeat, no-repeat;
+    -fx-background-size: 100%,200px;
+    -fx-background-position: center,left top;
+}
+.menu-bar{
+    -fx-background-color: rgb(200,500,200);
+    -fx-font-weight: bold;
+}
+.menu:hover{
+    -fx-background-color: #000;
+    -fx-font-weight: bold;
+}
+.label:hover{
+    -fx-font-size: 15 pt;
+    -fx-text-fill: green;
+}
+.menu-item{
+    -fx-background-color: #4E9A1B;
+    -fx-border-color: #000;
+}
+.menu-item:hover{
+    -fx-background-color: #000;
+    -fx-font-weight: bold;
+}
