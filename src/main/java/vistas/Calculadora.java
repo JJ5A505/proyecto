@@ -52,26 +52,32 @@ public class Calculadora extends Stage {
     }
     private void GenerarExprecion(String simbolo) {
         if (Character.isDigit(simbolo.charAt(0))) {
-            // Si se presiona un dígito, se agrega al número actual
             if (nuevaEntrada) {
-                // Si es una nueva entrada, se borra el contenido anterior
                 txtresultado.clear();
                 nuevaEntrada = false;
             }
             txtresultado.appendText(simbolo);
+        } else if (simbolo.equals(".")) {
+            if (nuevaEntrada) {
+                // Si es una nueva entrada y se presiona ".", agrega "0." al campo de texto
+                txtresultado.setText("0.");
+                nuevaEntrada = false;
+            } else if (!txtresultado.getText().contains(".")) {
+                // Asegúrate de que el punto decimal no esté presente más de una vez
+                txtresultado.appendText(simbolo);
+            }
         } else if (simbolo.equals("=")) {
-            // Si se presiona "=", se realiza la operación
             numeroDos = Double.parseDouble(txtresultado.getText());
             double resultado = realizarOperacion();
             txtresultado.setText(String.valueOf(resultado));
             nuevaEntrada = true;
         } else {
-            // Si se presiona un operador, se almacena el número actual como númeroUno
             numeroUno = Double.parseDouble(txtresultado.getText());
             operador = simbolo.charAt(0);
             nuevaEntrada = true;
         }
     }
+
     // Método para realizar la operación
     private double realizarOperacion() {
         switch (operador) {
