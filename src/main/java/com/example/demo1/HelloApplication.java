@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import vistas.Calculadora;
 import vistas.Loteria;
+import vistas.Restaurante;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -16,7 +17,7 @@ public class HelloApplication extends Application {
     private BorderPane borderPane;
     private MenuBar menuBar;
     private Menu menuParcial1, menuParcial2,menuSalir;
-    private MenuItem mitCalculadora,mitLoteria,mitSalir;
+    private MenuItem mitCalculadora,mitLoteria,mitSalir,mitRestaurante;
 
     private void CrearUI(){
         mitCalculadora = new MenuItem("Calculadora");
@@ -26,12 +27,17 @@ public class HelloApplication extends Application {
         mitLoteria.setOnAction((event)->new Loteria());
 
 
+
+
         menuParcial1 = new Menu("Parcial 1");
         menuParcial1.getItems().addAll(mitCalculadora,mitLoteria);//aqui se estan instanciando todas las opciones en parcial 1
 
 
-
+        mitRestaurante=new MenuItem("Restaurante");
+        mitRestaurante.setOnAction((event)-> new Restaurante());
         menuParcial2 = new Menu("Parcial 2");
+        menuParcial2.getItems().addAll(mitRestaurante);
+
 
         menuSalir = new Menu("Mas opciones");
         mitSalir = new MenuItem("Salir");
