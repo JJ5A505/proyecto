@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import vistas.Calculadora;
+import vistas.Conexion;
 import vistas.Loteria;
 import vistas.Restaurante;
 
@@ -57,6 +58,7 @@ public class HelloApplication extends Application {
     }
 
     public void start(Stage stage) throws IOException {
+        // connectToDatabase();
         CrearUI();
         borderPane = new BorderPane();
         borderPane.setTop(menuBar);
@@ -66,7 +68,10 @@ public class HelloApplication extends Application {
         stage.setMaximized(true);
         stage.show();
     }
-
+public void connectToDatabase(){
+    Conexion.createConexion();
+    System.out.println("Conexion establecida");
+}
 
     public static void main(String[] args) {
         launch();
