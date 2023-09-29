@@ -8,7 +8,7 @@ public class Conexion {
     private static String user =  "adminrestaurante";
     private static String pass ="123";
     private static String db = "restaurante";
-    private static  Connection conexion;
+    public static  Connection conexion;
     public static void createConexion(){
         try{
             Class.forName("org.mariadb.jdbc.Driver");
