@@ -2,17 +2,33 @@ package modelos;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import vistas.Conexion;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class CategoriasDAO {
     public int idCategoria;
-    public String nomCategoria;
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public String getNomCategoria() {
+        return nomCategoria;
+    }
+
+    public void setNomCategoria(String nomCategoria) {
+        this.nomCategoria = nomCategoria;
+    }
+
+    private String nomCategoria;
     public void INSERTAR(){
         try{
-            String query = "INSERTO INTO categorias"+"(nomCategoria) VALUES('"+this.nomCategoria+"')";
+            String query = "INSERTO INTO categoria"+"(nomCategoria) VALUES('"+this.nomCategoria+"')";
             Statement stmt = Conexion.conexion.createStatement();
             stmt.execute(query);
         }catch (Exception e){
@@ -21,7 +37,7 @@ public class CategoriasDAO {
     }
     public void ACTUALIZAR(){
 try {
-    String query = "UPDATE categorias SET nomCategoria = '"+this.nomCategoria+"'"+
+    String query = "UPDATE categoria SET nomCategoria = '"+this.nomCategoria+"'"+
             "WHERE id_categoria = "+this.idCategoria;
     Statement stmt = Conexion.conexion.createStatement();
     stmt.executeUpdate(query);
@@ -43,13 +59,13 @@ try {
         ObservableList<CategoriasDAO> listCat = FXCollections.observableArrayList();
         CategoriasDAO objC;
         try{
-            String query = "SELECT * FROM categorias";
+            String query = "SELECT * FROM categoria";
             Statement stmt = Conexion.conexion.createStatement();
             ResultSet res = stmt.executeQuery(query);
             while(res.next()){
                 objC = new CategoriasDAO();
                 objC.idCategoria = res.getInt("id_categoria");
-                objC.nomCategoria = res.getString("categoria");
+                objC.nomCategoria = res.getString("nombre");
                 listCat.add(objC);
             }
         }catch (Exception e){

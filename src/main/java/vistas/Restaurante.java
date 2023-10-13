@@ -1,12 +1,18 @@
 package vistas;
 
+import Components.ButtonCell;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import modelos.CategoriasDAO;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
@@ -42,13 +48,39 @@ panel.setBody(content);
         categoriasDAO = new CategoriasDAO();
         tbvCategorias = new TableView<CategoriasDAO>();
         CrearTable();
-        btnAgregar= new Button();
+        btnAgregar= new Button("Agregar");
         btnAgregar.getStylesheets().setAll("btn","btn-success");
-        btnAgregar.setOnAction((event)->{});
+        btnAgregar.setOnAction((event)-> new CategoriasForm(tbvCategorias,null));
         vBox = new VBox(tbvCategorias,btnAgregar);
 
     }
     private void CrearTable(){
+        TableColumn<CategoriasDAO,Integer> tbcIdCat = new TableColumn<CategoriasDAO,Integer>("ID");
+        tbcIdCat.setCellValueFactory(new PropertyValueFactory<>("id_categoria"));
+
+        TableColumn<CategoriasDAO,String> tbcNomCat = new TableColumn<CategoriasDAO,String>("Categoria");
+        tbcNomCat.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+        TableColumn<CategoriasDAO,String>tbcEditar = new TableColumn<>("Editar");
+        tbcEditar.setCellFactory(
+                new Callback<TableColumn<CategoriasDAO, String>, TableCell<CategoriasDAO, String>>() {
+                    @Override
+                    public TableCell<CategoriasDAO, String> call(TableColumn<CategoriasDAO, String> param) {
+                        return new ButtonCell(1);
+                    }
+                }
+        );
+        TableColumn<CategoriasDAO,String>tbcEliminar = new TableColumn<>("Eliminar");
+        tbcEliminar.setCellFactory(
+                new Callback<TableColumn<CategoriasDAO, String>, TableCell<CategoriasDAO, String>>() {
+                    @Override
+                    public TableCell<CategoriasDAO, String> call(TableColumn<CategoriasDAO, String> param) {
+                        return new ButtonCell(2);
+                    }
+                }
+        );
+
+        tbvCategorias.getColumns().addAll(tbcIdCat,tbcNomCat,tbcEditar,tbcEliminar);
         tbvCategorias.setItems(categoriasDAO.LISTARCATEGORIAS());
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import vistas.Calculadora;
-import vistas.Conexion;
+import modelos.Conexion;
 import vistas.Loteria;
 import vistas.Restaurante;
 

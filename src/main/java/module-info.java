@@ -1,4 +1,4 @@
-module com.example.demo1 {
+module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -10,7 +10,6 @@ module com.example.demo1 {
     requires java.sql;
     requires mariadb.java.client;
 
-
-
+    //opens com.example.demo1.modelos;
 
 }
