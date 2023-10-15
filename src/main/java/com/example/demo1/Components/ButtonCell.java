@@ -1,7 +1,7 @@
-package Components;
+package com.example.demo1.Components;
 
 import javafx.scene.control.*;
-import modelos.CategoriasDAO;
+import com.example.demo1.models.CategoriasDAO;
 import vistas.CategoriasForm;
 
 import java.util.Optional;

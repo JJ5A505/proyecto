@@ -10,6 +10,6 @@ module com.example.demo {
     requires java.sql;
     requires mariadb.java.client;
 
-    //opens com.example.demo1.modelos;
+    opens com.example.demo1.models;
 
 }

@@ -1,7 +1,6 @@
 package vistas;
 
-import Components.ButtonCell;
-import javafx.beans.value.ObservableValue;
+import com.example.demo1.Components.ButtonCell;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import modelos.CategoriasDAO;
+import com.example.demo1.models.CategoriasDAO;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
 
@@ -56,10 +55,10 @@ panel.setBody(content);
     }
     private void CrearTable(){
         TableColumn<CategoriasDAO,Integer> tbcIdCat = new TableColumn<CategoriasDAO,Integer>("ID");
-        tbcIdCat.setCellValueFactory(new PropertyValueFactory<>("id_categoria"));
+        tbcIdCat.setCellValueFactory(new PropertyValueFactory<>("idCategoria"));
 
         TableColumn<CategoriasDAO,String> tbcNomCat = new TableColumn<CategoriasDAO,String>("Categoria");
-        tbcNomCat.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        tbcNomCat.setCellValueFactory(new PropertyValueFactory<>("nomCategoria"));
 
         TableColumn<CategoriasDAO,String>tbcEditar = new TableColumn<>("Editar");
         tbcEditar.setCellFactory(

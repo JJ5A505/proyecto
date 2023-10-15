@@ -7,7 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import modelos.CategoriasDAO;
+import com.example.demo1.models.CategoriasDAO;
 
 public class CategoriasForm extends Stage {
     private Scene escena;

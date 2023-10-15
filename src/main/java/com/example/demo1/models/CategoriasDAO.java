@@ -1,4 +1,4 @@
-package modelos;
+package com.example.demo1.models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +28,7 @@ public class CategoriasDAO {
     private String nomCategoria;
     public void INSERTAR(){
         try{
-            String query = "INSERTO INTO categoria"+"(nomCategoria) VALUES('"+this.nomCategoria+"')";
+            String query = "INSERT INTO categoria"+"(nombre) VALUES('"+this.nomCategoria+"')";
             Statement stmt = Conexion.conexion.createStatement();
             stmt.execute(query);
         }catch (Exception e){
@@ -37,7 +37,7 @@ public class CategoriasDAO {
     }
     public void ACTUALIZAR(){
 try {
-    String query = "UPDATE categoria SET nomCategoria = '"+this.nomCategoria+"'"+
+    String query = "UPDATE categoria SET nombre = '"+this.nomCategoria+"'"+
             "WHERE id_categoria = "+this.idCategoria;
     Statement stmt = Conexion.conexion.createStatement();
     stmt.executeUpdate(query);
@@ -48,7 +48,7 @@ try {
     }
     public void ELIMINAR(){
         try {
-            String query = "DELETE FROM categorias WHERE id_categoria = "+this.idCategoria;
+            String query = "DELETE FROM categoria WHERE id_categoria = "+this.idCategoria;
             Statement stmt = Conexion.conexion.createStatement();
             stmt.executeUpdate(query);
         }catch (Exception e){
