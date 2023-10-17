@@ -27,8 +27,8 @@ public class Restaurante extends Stage {
         panel.getStyleClass().add("panel-primary");                            //(2)
         BorderPane content = new BorderPane();
         content.setPadding(new Insets(20));
-content.setCenter(vBox);
-panel.setBody(content);
+        content.setCenter(vBox);
+        panel.setBody(content);
         //Button button = new Button("Hello BootstrapFX");
         //button.getStyleClass().setAll("btn","btn-danger");                     //(2)
         //content.setCenter(button);
