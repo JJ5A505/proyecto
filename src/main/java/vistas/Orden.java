@@ -16,7 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class Orden extends Stage {
-    private Button[][] arBoton = new Button[2][4];
+    private Button[][] arBoton = new Button[2][2];
+
     private GridPane grdTablilla;
     private ImageView imv;
 
@@ -51,10 +52,7 @@ public class Orden extends Stage {
         grdTablilla = new GridPane();
         int pos = 0;
 
-        arBoton[0][0]= new Button();
-        arBoton[0][1]= new Button();
-        arBoton[1][0]= new Button();
-        arBoton[1][1]= new Button();
+
 
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -74,12 +72,15 @@ public class Orden extends Stage {
                 arBoton[i][j].setPrefSize(90, 110);
                 grdTablilla.add(arBoton[i][j], i, j);
 
-                arBoton[0][0].setOnAction(event -> new comidas());
-                arBoton[0][1].setOnAction(event -> new bebidas());
-                arBoton[1][0].setOnAction(event -> new comidas());
-                arBoton[1][1].setOnAction(event -> new frappes());
+
 
         }
     }
+        arBoton[0][0].setOnAction(event -> new comidas());
+        arBoton[0][1].setOnAction(event -> new bebidas());
+        arBoton[1][0].setOnAction(event -> new postres());
+        arBoton[1][1].setOnAction(event -> new frappes());
+
+
     }
 }

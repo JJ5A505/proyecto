@@ -17,7 +17,7 @@ import java.io.InputStream;
 
 public class bebidas extends Stage {
 
-    private Button[][] arBoton = new Button[2][4];
+    private Button[][] arBoton = new Button[2][2];
     private GridPane grdTablilla;
 
     public bebidas(){
@@ -45,7 +45,7 @@ CrearUI();
         this.show();
     }
     private void tblbebidas() {
-        String[] arImagenes = {"hamburgesa.jpg", "alitas.jpg", "pizza.jpg", "ensalada.jpg"};
+        String[] arImagenes = {"coca.jpg", "cafe.jpg", "te.jpg", "agua.jpg"};
         grdTablilla = new GridPane();
         int pos = 0;
         for (int i = 0; i < 2; i++) {
