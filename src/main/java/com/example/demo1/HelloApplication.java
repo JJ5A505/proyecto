@@ -1,14 +1,12 @@
 package com.example.demo1;
+import com.example.demo1.Components.Hilo;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import vistas.Calculadora;
+import vistas.*;
 import com.example.demo1.models.Conexion;
-import vistas.Loteria;
-import vistas.Orden;
-import vistas.Restaurante;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -18,8 +16,8 @@ public class HelloApplication extends Application {
     private Scene escena;
     private BorderPane borderPane;
     private MenuBar menuBar;
-    private Menu menuParcial1, menuParcial2,menuSalir;
-    private MenuItem mitCalculadora,mitLoteria,mitSalir,mitRestaurante,mitOrden;
+    private Menu menuParcial1, menuParcial2,menuParcial3,menuSalir;
+    private MenuItem mitCalculadora,mitLoteria,mitSalir,mitRestaurante,mitOrden,mitPista;
 
     private void CrearUI(){
         mitCalculadora = new MenuItem("Calculadora");
@@ -37,15 +35,21 @@ public class HelloApplication extends Application {
         mitRestaurante.setOnAction((event)-> new Restaurante());
         mitOrden= new MenuItem("Orden");
         mitOrden.setOnAction(event -> new Orden());
+        mitPista=new MenuItem("Pista");
+        mitPista.setOnAction(event -> new PistaAtletismo());
         menuParcial2 = new Menu("Parcial 2");
-        menuParcial2.getItems().addAll(mitRestaurante,mitOrden);
+        menuParcial2.getItems().addAll(mitRestaurante,mitOrden,mitPista);
+
+
+        menuParcial3 = new Menu("Parcial 3");
+        menuParcial3.getItems().addAll();
 
 
         menuSalir = new Menu("Mas opciones");
         mitSalir = new MenuItem("Salir");
         mitSalir.setOnAction((event)->Salir());
         menuSalir.getItems().add(mitSalir);
-        menuBar = new MenuBar(menuParcial1,menuParcial2,menuSalir);
+        menuBar = new MenuBar(menuParcial1,menuParcial2,menuParcial3,menuSalir);
     }
 
     private void Salir() {
@@ -59,6 +63,8 @@ public class HelloApplication extends Application {
     }
 
     public void start(Stage stage) throws IOException {
+
+
         connectToDatabase();
         CrearUI();
         borderPane = new BorderPane();

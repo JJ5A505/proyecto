@@ -10,10 +10,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
 
 public class frappes extends Stage {
 
@@ -26,7 +26,7 @@ CrearUI();
     private void CrearUI() {
         tblfrappes();
 
-        Panel panel = new Panel("Bebidas");
+        Panel panel = new Panel("Frappes");
         panel.getStyleClass().add("panel-primary");
 
         BorderPane content = new BorderPane();

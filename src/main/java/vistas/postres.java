@@ -26,7 +26,7 @@ public class postres extends Stage {
     private void CrearUI() {
         tblpostres();
 
-        Panel panel = new Panel("Bebidas");
+        Panel panel = new Panel("Postres");
         panel.getStyleClass().add("panel-primary");
 
         BorderPane content = new BorderPane();
