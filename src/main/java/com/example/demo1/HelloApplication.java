@@ -76,7 +76,7 @@ public class HelloApplication extends Application {
         stage.show();
     }
 public void connectToDatabase(){
-   // Conexion.createConexion();
+    Conexion.createConexion();
     System.out.println("Conexion establecida");
 }
 
