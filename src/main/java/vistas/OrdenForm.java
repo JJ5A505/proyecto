@@ -14,8 +14,8 @@ public class OrdenForm extends Stage {
     private HBox hBox;
     private Button btnGuardar;
     private TextField txtNombrePlatillo;
-    private TextField txtCantidad;
-    private TextField txtPrecio;
+    public TextField txtCantidad;
+    public TextField txtPrecio;
     private OrdenDAO ordenDAO;
     private TableView<OrdenDAO> tbvOrdenes;
 
@@ -31,41 +31,30 @@ public class OrdenForm extends Stage {
 
     private void CrearUI() {
 
-        txtNombrePlatillo = new TextField();
-        txtNombrePlatillo.setText(ordenDAO.getNombre());
-        txtNombrePlatillo.setPromptText("Nombre del platillo");
-
         TextField txtCantidad = new TextField();
         txtCantidad.setText(String.valueOf(ordenDAO.getCantidad()));
         txtCantidad.setPromptText("Cantidad");
 
-        TextField txtPrecio = new TextField();
-        txtPrecio.setText(String.valueOf(ordenDAO.getPrecio()));
-        txtPrecio.setPromptText("Precio");
 
 
         btnGuardar = new Button("Guardar");
         btnGuardar.setOnAction(event -> guardarOrden());
 
-        hBox = new HBox(txtNombrePlatillo, txtCantidad, txtPrecio, btnGuardar);
+        hBox = new HBox( txtCantidad, btnGuardar);
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10));
     }
 
     private void guardarOrden() {
-        ordenDAO.setNombre(txtNombrePlatillo.getText());
         ordenDAO.setCantidad(Integer.parseInt(txtCantidad.getText()));
-        ordenDAO.setPrecio((int) Double.parseDouble(txtPrecio.getText()));
-
         if (ordenDAO.getId_orden() > 0) {
-          //  ordenDAO.ACTUALIZAR();
+           ordenDAO.ACTUALIZAR();
         } else {
             //ordenDAO.INSERTAR();
-        }
-
         tbvOrdenes.setItems(ordenDAO.LISTARCATEGORIAS());
         tbvOrdenes.refresh();
         //this.Close();
+        }
     }
 }
 

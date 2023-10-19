@@ -33,7 +33,7 @@ public class ButtonCellOrden extends TableCell<OrdenDAO, String> {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-               // objO.ELIMINAR();
+                objO.ELIMINAR();
                 tbvOrdenes.setItems(objO.LISTARCATEGORIAS());
                 tbvOrdenes.refresh();
                 // ... user chose OK

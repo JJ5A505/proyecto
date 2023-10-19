@@ -2,6 +2,7 @@ package vistas;
 import com.example.demo1.Components.ButtonCell;
 import com.example.demo1.Components.ButtonCellOrden;
 import com.example.demo1.models.CategoriasDAO;
+import com.example.demo1.models.Conexion;
 import com.example.demo1.models.OrdenDAO;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -24,6 +25,8 @@ import org.kordamp.bootstrapfx.scene.layout.Panel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.sql.Statement;
+import java.util.Date;
 
 public class Orden extends Stage {
     private Button[][] arBoton = new Button[2][2];
@@ -34,15 +37,18 @@ public class Orden extends Stage {
     private OrdenDAO ordenDAO;
     private VBox vBox,vBoxtable;
     private HBox hBoxprincipal;
+    private Button btnGuardar;
+    public static int contador;
 
     private Scene scene;
 
 
 
     public Orden() {
+
         CrearUI();
         grdTablilla=new GridPane();
-        scene=new Scene(hBoxprincipal,800,600);
+        scene=new Scene(hBoxprincipal,1000,600);
 
         Panel panel = new Panel("This is the title");
         panel.getStyleClass().add("panel-primary");                            //(2)
@@ -63,8 +69,20 @@ public class Orden extends Stage {
         ordenDAO = new OrdenDAO();
         tbvOrden = new TableView<OrdenDAO>();
         CrearTable();
+        btnGuardar= new Button("Guardar Orden");
+        btnGuardar.setLineSpacing(15);
+        btnGuardar.setPrefSize(100,50);
+        btnGuardar.setOnAction(event -> {
+            try{
+                String query = "insert into orden(id_orden,fecha) (select max(id_orden+1),current_timestamp from orden);";
+                Statement stmt = Conexion.conexion.createStatement();
+                stmt.execute(query);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
         vBoxtable= new VBox(tbvOrden);
-        vBox=new VBox(grdTablilla);
+        vBox=new VBox(grdTablilla,btnGuardar);
         hBoxprincipal= new HBox(vBox,vBoxtable);
 
        /* Panel panel = new Panel("Menu");
@@ -131,8 +149,15 @@ public class Orden extends Stage {
         TableColumn<OrdenDAO, Integer> tbcCantidad = new TableColumn<OrdenDAO, Integer>("Cantidad");
         tbcCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
 
-        TableColumn<OrdenDAO, Double> tbcPrecio = new TableColumn<OrdenDAO, Double>("Precio");
+        TableColumn<OrdenDAO, Double> tbcPrecio = new TableColumn<OrdenDAO, Double>("Precio Unitario");
         tbcPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+
+        TableColumn<OrdenDAO,Double> tbcImporte = new TableColumn<OrdenDAO, Double>("Importe");
+        tbcImporte.setCellValueFactory(new PropertyValueFactory<>("importe"));
+
+        TableColumn<OrdenDAO, Date> tbcFecha = new TableColumn<OrdenDAO,Date>("Fecha");
+        tbcFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+
 
         TableColumn<OrdenDAO, String> tbcEditar = new TableColumn<>("Editar");
         tbcEditar.setCellFactory(
@@ -154,10 +179,11 @@ public class Orden extends Stage {
                 }
         );
 
-        tbvOrden.getColumns().addAll(tbcIdOrden, tbcNombrePlatillo, tbcCantidad, tbcPrecio, tbcEditar, tbcEliminar);
+        tbvOrden.getColumns().addAll(tbcIdOrden, tbcNombrePlatillo, tbcCantidad, tbcPrecio,tbcImporte,tbcFecha, tbcEditar, tbcEliminar);
 
         // Crear ListarCategorias();
         tbvOrden.setItems(ordenDAO.LISTARCATEGORIAS());
     }
+
 
 }

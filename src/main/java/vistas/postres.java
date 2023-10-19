@@ -17,7 +17,7 @@ import java.io.InputStream;
 
 public class postres extends Stage {
 
-    private Button[][] arBoton = new Button[2][3];
+    private Button[][] arBoton = new Button[2][2];
     private GridPane grdTablilla;
 
     public postres(){
@@ -45,11 +45,11 @@ public class postres extends Stage {
         this.show();
     }
     private void tblpostres() {
-        String[] arImagenes = {"pastel.jpg", "helado.jpg", "crepa.jpg", "pay.jpg","crepa.jpg","waffle.jpg"};
+        String[] arImagenes = {"pastel.jpg", "helado.jpg", "crepa.jpg", "pay.jpg"};
         grdTablilla = new GridPane();
         int pos = 0;
         for (int i = 0; i <2; i++) {
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 2; j++) {
                 ImageView imv;
                 try {
                     InputStream stream = new FileInputStream("src/main/java/imvRestaurante/" + arImagenes[pos]);

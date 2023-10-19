@@ -56,14 +56,35 @@ public class OrdenDAO {
     }
 
     public String nombre;
+
+    public double getImporte() {
+        return importe;
+    }
+
+    public void setImporte(double importe) {
+        this.importe = importe;
+    }
+
+    public double importe;
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String fecha;
+
     public ObservableList<OrdenDAO> LISTARCATEGORIAS() {
         ObservableList<OrdenDAO> listOrdenes = FXCollections.observableArrayList();
         OrdenDAO objO;
 
         try {
-            String query = "SELECT o.id_orden, p.nombre, o.cantidad, (o.cantidad * p.precio) AS precio " +
-                    "FROM orden o " +
-                    "JOIN platillos p ON o.id_platillo = p.id_platillo";
+            String query = "select d.id_orden,p.nombre,d.cantidad,p.precio ,(d.cantidad*p.precio)as importe,o.fecha\n" +
+                    "from detalle d join orden o on d.id_orden = o.id_orden\n" +
+                    "join platillos p on d.id_platillo = p.id_platillo";
 
             Statement stmt = Conexion.conexion.createStatement();
             ResultSet res = stmt.executeQuery(query);
@@ -74,6 +95,9 @@ public class OrdenDAO {
                 objO.nombre = res.getString("nombre");
                 objO.cantidad = res.getInt("cantidad");
                 objO.precio = res.getInt("precio");
+                objO.importe=res.getInt("importe");
+                objO.fecha= res.getString("fecha");
+
 
                 listOrdenes.add(objO);
             }
@@ -85,4 +109,24 @@ public class OrdenDAO {
 
     }
 
+    public void ELIMINAR() {
+        try {
+            String query = "DELETE FROM orden WHERE id_orden = "+this.id_orden;
+            Statement stmt = Conexion.conexion.createStatement();
+            stmt.executeUpdate(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void ACTUALIZAR(){
+        try {
+            String query = "UPDATE detalle SET cantidad = '"+this.cantidad+"'"+
+                    "WHERE id_orden = "+this.id_orden;
+            Statement stmt = Conexion.conexion.createStatement();
+            stmt.executeUpdate(query);
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+    }
 }

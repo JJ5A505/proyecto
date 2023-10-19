@@ -3,10 +3,12 @@ package vistas;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
@@ -16,9 +18,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class comidas extends Stage {
-    private Button[][] arBoton = new Button[2][4];
+    private Button[][] arBoton = new Button[2][2];
     private GridPane grdTablilla;
     private ImageView imv;
+    private Button cantidad;
+
+    private HBox hBox;
 
     public comidas(){
 CrearUI();
@@ -68,6 +73,17 @@ CrearUI();
 
             }
         }
+        arBoton[0][0].setOnAction(event -> {
+            preguntar();
 
-    }
+}
+private void preguntar(){
+        cantidad=new Button();
+    TextField txtCantidad = new TextField();
+    txtCantidad.setPromptText("Cantidad");
+
+
+}
+}
+}
 }
