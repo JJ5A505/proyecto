@@ -1,0 +1,15 @@
+.button{
+    -fx-border-color: rgb(0,0,0);
+    -fx-border-radius:10;
+    -fx-background-color: linear-gradient(rgb(500,500,500),rgb(200,400,600));
+}
+.panel-primary {
+    background-color: rgb(100,200,500);
+    color: green;
+    /* Otros estilos personalizados */
+}
+/* my-custom-variables.css */
+.root {
+    --primary-color: #ff5733;
+    --font-family: 'Arial', sans-serif;
+}

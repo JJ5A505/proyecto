@@ -30,7 +30,6 @@ import java.util.Date;
 
 public class Orden extends Stage {
     private Button[][] arBoton = new Button[2][2];
-
     private GridPane grdTablilla;
     private ImageView imv;
     private TableView<OrdenDAO> tbvOrden;
@@ -38,8 +37,6 @@ public class Orden extends Stage {
     private VBox vBox,vBoxtable;
     private HBox hBoxprincipal;
     private Button btnGuardar;
-    public static int contador;
-
     private Scene scene;
 
 
@@ -50,15 +47,17 @@ public class Orden extends Stage {
         grdTablilla=new GridPane();
         scene=new Scene(hBoxprincipal,1000,600);
 
-        Panel panel = new Panel("This is the title");
+        Panel panel = new Panel("Menu ");
         panel.getStyleClass().add("panel-primary");                            //(2)
         BorderPane content = new BorderPane();
         content.setPadding(new Insets(20));
         content.setCenter(hBoxprincipal);
+        scene.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         panel.setBody(content);
         Scene scene = new Scene(panel);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());       //(3)
-        this.setTitle("BootstrapFX");
+        scene.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
+        this.setTitle("Cafeteria XD");
         this.setScene(scene);
         this.sizeToScene();
         this.show();
@@ -72,6 +71,7 @@ public class Orden extends Stage {
         btnGuardar= new Button("Guardar Orden");
         btnGuardar.setLineSpacing(15);
         btnGuardar.setPrefSize(100,50);
+       // btnGuardar.getStylesheets().add(getClass().getResource("estilos/Orden.css").toString());
         btnGuardar.setOnAction(event -> {
             try{
                 String query = "insert into orden(id_orden,fecha) (select max(id_orden+1),current_timestamp from orden);";
@@ -82,6 +82,10 @@ public class Orden extends Stage {
             }
         });
         vBoxtable= new VBox(tbvOrden);
+        vBoxtable.getStylesheets().add(getClass().getResource("/estilos/calculadora.css").toString());
+
+
+        //vBox.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         vBox=new VBox(grdTablilla,btnGuardar);
         hBoxprincipal= new HBox(vBox,vBoxtable);
 
@@ -134,8 +138,8 @@ public class Orden extends Stage {
 
         }
     }
-        arBoton[0][0].setOnAction(event -> new comidas());
-        arBoton[0][1].setOnAction(event -> new bebidas());
+        arBoton[0][0].setOnAction(event -> new comidas(tbvOrden,ordenDAO));
+        arBoton[0][1].setOnAction(event -> new bebidas(tbvOrden,ordenDAO));
         arBoton[1][0].setOnAction(event -> new postres());
         arBoton[1][1].setOnAction(event -> new frappes());
     }

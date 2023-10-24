@@ -111,7 +111,7 @@ public class OrdenDAO {
 
     public void ELIMINAR() {
         try {
-            String query = "DELETE FROM orden WHERE id_orden = "+this.id_orden;
+            String query = "DELETE FROM detalle WHERE id_orden = "+this.id_orden;
             Statement stmt = Conexion.conexion.createStatement();
             stmt.executeUpdate(query);
         }catch (Exception e){

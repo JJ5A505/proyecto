@@ -43,10 +43,7 @@ TableView<CategoriasDAO>tbvCategorias;
         categoriasDAO.setNomCategoria(txtNameCat.getText());
         if (categoriasDAO.getIdCategoria() >0)
             categoriasDAO.ACTUALIZAR();
-
-
         else
-
         categoriasDAO.INSERTAR();
         tbvCategorias.setItems(categoriasDAO.LISTARCATEGORIAS());
         tbvCategorias.refresh();

@@ -41,6 +41,7 @@ public class ButtonCellOrden extends TableCell<OrdenDAO, String> {
         }
     }
 
+
     @Override
     protected void updateItem(String s, boolean b) {
         super.updateItem(s, b);
