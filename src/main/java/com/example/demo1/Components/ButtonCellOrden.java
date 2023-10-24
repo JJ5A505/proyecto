@@ -23,8 +23,11 @@ public class ButtonCellOrden extends TableCell<OrdenDAO, String> {
     private void accionBoton() {
         tbvOrdenes = ButtonCellOrden.this.getTableView();
         objO = tbvOrdenes.getItems().get(ButtonCellOrden.this.getIndex());
+
         if (this.opc == 1) {
-            new OrdenForm(tbvOrdenes, objO);
+         objO.ACTUALIZAR();
+            tbvOrdenes.setItems(objO.LISTARCATEGORIAS());
+            tbvOrdenes.refresh();
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Topicos Avanzados de Programacion");

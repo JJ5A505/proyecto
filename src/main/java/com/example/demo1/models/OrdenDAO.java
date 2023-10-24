@@ -2,13 +2,27 @@ package com.example.demo1.models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Optional;
 
 public class OrdenDAO {
     public int id_orden;
     public int id_categoria;
+
+    public int getId_platillo() {
+        return id_platillo;
+    }
+
+    public void setId_platillo(int id_platillo) {
+        this.id_platillo = id_platillo;
+    }
+
+    public int id_platillo;
 
     public int getPrecio() {
         return precio;
@@ -82,7 +96,7 @@ public class OrdenDAO {
         OrdenDAO objO;
 
         try {
-            String query = "select d.id_orden,p.nombre,d.cantidad,p.precio ,(d.cantidad*p.precio)as importe,o.fecha\n" +
+            String query = "select d.id_orden,d.id_platillo,p.nombre,d.cantidad,p.precio ,(d.cantidad*p.precio)as importe,o.fecha\n" +
                     "from detalle d join orden o on d.id_orden = o.id_orden\n" +
                     "join platillos p on d.id_platillo = p.id_platillo";
 
@@ -92,11 +106,12 @@ public class OrdenDAO {
             while (res.next()) {
                 objO = new OrdenDAO();
                 objO.id_orden = res.getInt("id_orden");
+                objO.id_platillo = res.getInt("id_platillo");
                 objO.nombre = res.getString("nombre");
                 objO.cantidad = res.getInt("cantidad");
                 objO.precio = res.getInt("precio");
-                objO.importe=res.getInt("importe");
-                objO.fecha= res.getString("fecha");
+                objO.importe = res.getInt("importe");
+                objO.fecha = res.getString("fecha");
 
 
                 listOrdenes.add(objO);
@@ -111,22 +126,51 @@ public class OrdenDAO {
 
     public void ELIMINAR() {
         try {
-            String query = "DELETE FROM detalle WHERE id_orden = "+this.id_orden;
+            String query = "delete from detalle where id_orden=" + this.id_orden + " and id_platillo=" + this.id_platillo + " and cantidad=" + this.cantidad;
             Statement stmt = Conexion.conexion.createStatement();
             stmt.executeUpdate(query);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void ACTUALIZAR(){
-        try {
-            String query = "UPDATE detalle SET cantidad = '"+this.cantidad+"'"+
-                    "WHERE id_orden = "+this.id_orden;
-            Statement stmt = Conexion.conexion.createStatement();
-            stmt.executeUpdate(query);
-        }catch (Exception e){
-            e.printStackTrace();
 
+    public void ACTUALIZAR() {
+        TextField txtCantidad = new TextField();
+        txtCantidad.setPromptText("Cantidad");
+        txtCantidad.setText(String.valueOf(1));
+
+        // Abre una ventana emergente
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Cantidad");
+        dialog.setContentText("Ingrese la cantidad");
+        dialog.getEditor().setText(txtCantidad.getText());
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            // El usuario ingresó un valor
+            int cantidad = Integer.parseInt(result.get());
+            // Haz algo con el valor
+            this.cantidad = cantidad;
+            if(cantidad>0){
+                try {
+                    String query = "UPDATE detalle SET cantidad = '"+this.cantidad+"'"+
+                            "WHERE id_orden = "+this.id_orden+" and id_platillo="+this.id_platillo;
+                    Statement stmt = Conexion.conexion.createStatement();
+                    stmt.executeUpdate(query);
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+
+            }else {
+                if(cantidad<0){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Valor invalido");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No se puede ponerse esa cantidad");
+                    alert.showAndWait();
+                }
+            }
         }
     }
 }

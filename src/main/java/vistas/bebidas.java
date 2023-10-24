@@ -30,6 +30,7 @@ public class bebidas extends Stage {
     private TableView<OrdenDAO>tbvOrdenes;
     private OrdenDAO ordenDAO;
     private int id_producto;
+    private int contador;
 
     public bebidas(TableView<OrdenDAO>tbvOrdenes,OrdenDAO ordenDAO){
 this.tbvOrdenes=tbvOrdenes;
@@ -60,6 +61,7 @@ this.ordenDAO=ordenDAO;
     private void tblbebidas() {
         String[] arImagenes = {"coca.jpg", "cafe.jpg", "te.jpg", "agua.jpg"};
         grdTablilla = new GridPane();
+        grdTablilla.getStylesheets().add(getClass().getResource("/estilos/botones.css").toString());
         int pos = 0;
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -84,10 +86,26 @@ this.ordenDAO=ordenDAO;
         arBoton[0][0].setOnAction(event -> {
             id_producto=5;
             preguntar();
-            while (cantidad>0) {
-                insert();
-                actualizarTabla();
-            }
+           insert();
+
+        });
+        arBoton[1][0].setOnAction(event -> {
+            id_producto=7;
+            preguntar();
+            insert();
+
+        });
+        arBoton[0][1].setOnAction(event -> {
+            id_producto=6;
+            preguntar();
+            insert();
+
+        });
+        arBoton[1][1].setOnAction(event -> {
+            id_producto=8;
+            preguntar();
+            insert();
+
         });
 
     }
@@ -108,7 +126,8 @@ this.ordenDAO=ordenDAO;
             int cantidad = Integer.parseInt(result.get());
             // Haz algo con el valor
             this.cantidad = cantidad;
-
+        }else{
+            this.cantidad=0;
         }
     }
     private void actualizarTabla() {
@@ -116,7 +135,8 @@ this.ordenDAO=ordenDAO;
         tbvOrdenes.refresh();
     }
     private void insert(){
-
+        contador=0;
+while (cantidad>0 && contador==0){
             try {
                 String query = "insert into detalle(id_orden, id_platillo, cantidad)(select max(id_orden),"+id_producto+"," + cantidad + " from orden);";
                 Statement stmt = Conexion.conexion.createStatement();
@@ -124,6 +144,9 @@ this.ordenDAO=ordenDAO;
             } catch (Exception e) {
                 e.printStackTrace();
 
+            }
+            actualizarTabla();
+            contador++;
         }
     }
     }

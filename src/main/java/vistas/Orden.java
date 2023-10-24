@@ -6,10 +6,7 @@ import com.example.demo1.models.Conexion;
 import com.example.demo1.models.OrdenDAO;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,11 +24,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.Optional;
 
 public class Orden extends Stage {
     private Button[][] arBoton = new Button[2][2];
     private GridPane grdTablilla;
-    private ImageView imv;
+
     private TableView<OrdenDAO> tbvOrden;
     private OrdenDAO ordenDAO;
     private VBox vBox,vBoxtable;
@@ -52,11 +50,9 @@ public class Orden extends Stage {
         BorderPane content = new BorderPane();
         content.setPadding(new Insets(20));
         content.setCenter(hBoxprincipal);
-        scene.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         panel.setBody(content);
         Scene scene = new Scene(panel);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());       //(3)
-        scene.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         this.setTitle("Cafeteria XD");
         this.setScene(scene);
         this.sizeToScene();
@@ -70,16 +66,24 @@ public class Orden extends Stage {
         CrearTable();
         btnGuardar= new Button("Guardar Orden");
         btnGuardar.setLineSpacing(15);
+        btnGuardar.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         btnGuardar.setPrefSize(100,50);
-       // btnGuardar.getStylesheets().add(getClass().getResource("estilos/Orden.css").toString());
         btnGuardar.setOnAction(event -> {
-            try{
-                String query = "insert into orden(id_orden,fecha) (select max(id_orden+1),current_timestamp from orden);";
-                Statement stmt = Conexion.conexion.createStatement();
-                stmt.execute(query);
-            }catch (Exception e){
-                e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setTitle("Confirmación");
+            alert.setContentText("¿Estas seguro de quieres guardar la orden?");
+            Optional<ButtonType> action = alert.showAndWait();
+            if (action.get() == ButtonType.OK) {
+                try{
+                    String query = "insert into orden(id_orden,fecha) (select max(id_orden+1),current_timestamp from orden);";
+                    Statement stmt = Conexion.conexion.createStatement();
+                    stmt.execute(query);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
+
         });
         vBoxtable= new VBox(tbvOrden);
         vBoxtable.getStylesheets().add(getClass().getResource("/estilos/calculadora.css").toString());
@@ -88,6 +92,7 @@ public class Orden extends Stage {
         //vBox.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         vBox=new VBox(grdTablilla,btnGuardar);
         hBoxprincipal= new HBox(vBox,vBoxtable);
+
 
        /* Panel panel = new Panel("Menu");
         panel.getStyleClass().add("panel-primary");
@@ -112,6 +117,7 @@ public class Orden extends Stage {
     private void CrearMenu() {
         String[] arImagenes = {"comidas.jpg", "bebidas.jpg", "postres.jpg", "frappes.jpg"};
         grdTablilla = new GridPane();
+        grdTablilla.getStylesheets().add(getClass().getResource("/estilos/botones.css").toString());
         int pos = 0;
 
 
@@ -140,12 +146,16 @@ public class Orden extends Stage {
     }
         arBoton[0][0].setOnAction(event -> new comidas(tbvOrden,ordenDAO));
         arBoton[0][1].setOnAction(event -> new bebidas(tbvOrden,ordenDAO));
-        arBoton[1][0].setOnAction(event -> new postres());
-        arBoton[1][1].setOnAction(event -> new frappes());
+        arBoton[1][0].setOnAction(event -> new postres(tbvOrden,ordenDAO));
+        arBoton[1][1].setOnAction(event -> new frappes(tbvOrden,ordenDAO));
     }
     private void CrearTable() {
-        TableColumn<OrdenDAO, Integer> tbcIdOrden = new TableColumn<OrdenDAO, Integer>("ID");
+        TableColumn<OrdenDAO, Integer> tbcIdOrden = new TableColumn<OrdenDAO, Integer>("Orden");
         tbcIdOrden.setCellValueFactory(new PropertyValueFactory<>("id_orden"));
+
+        TableColumn<OrdenDAO, Integer> tbcIdPlatillo = new TableColumn<OrdenDAO, Integer>("id_platillo");
+        tbcIdPlatillo.setCellValueFactory(new PropertyValueFactory<>("id_platillo"));
+
 
         TableColumn<OrdenDAO, String> tbcNombrePlatillo = new TableColumn<OrdenDAO, String>("Nombre Platillo");
         tbcNombrePlatillo.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -183,8 +193,7 @@ public class Orden extends Stage {
                 }
         );
 
-        tbvOrden.getColumns().addAll(tbcIdOrden, tbcNombrePlatillo, tbcCantidad, tbcPrecio,tbcImporte,tbcFecha, tbcEditar, tbcEliminar);
-
+        tbvOrden.getColumns().addAll(tbcIdOrden,tbcIdPlatillo, tbcNombrePlatillo, tbcCantidad, tbcPrecio,tbcImporte,tbcFecha, tbcEditar, tbcEliminar);
         // Crear ListarCategorias();
         tbvOrden.setItems(ordenDAO.LISTARCATEGORIAS());
     }

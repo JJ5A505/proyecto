@@ -28,8 +28,8 @@ public class comidas extends Stage  {
     private GridPane grdTablilla;
     private int cantidad;
     private TableView<OrdenDAO> tbvOrdenes;
-
     private OrdenDAO ordenDAO;
+    private int contador;
 
     public comidas(TableView<OrdenDAO>tbvOrdenes, OrdenDAO ordenDAO) {
 this.tbvOrdenes=tbvOrdenes;
@@ -39,10 +39,8 @@ this.ordenDAO=ordenDAO;
 
     private void CrearUI() {
         tblcomidas();
-
         Panel panel = new Panel("Comidas");
         panel.getStyleClass().add("panel-primary");
-
         BorderPane content = new BorderPane();
         content.setPadding(new Insets(20));
         content.setCenter(grdTablilla);
@@ -50,7 +48,6 @@ this.ordenDAO=ordenDAO;
 
         Scene scene = new Scene(panel);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-
         this.setTitle("Cafeteria XD");
         this.setScene(scene);
         this.sizeToScene();
@@ -62,6 +59,7 @@ this.ordenDAO=ordenDAO;
     private void tblcomidas() {
         String[] arImagenes = {"hamburgesa.jpg", "alitas.jpg", "pizza.jpg", "ensalada.jpg"};
         grdTablilla = new GridPane();
+        grdTablilla.getStylesheets().add(getClass().getResource("/estilos/botones.css").toString());
         int pos = 0;
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -85,7 +83,8 @@ this.ordenDAO=ordenDAO;
         }
         arBoton[0][0].setOnAction(event -> {
             preguntar();
-            while (cantidad>0) {
+            contador=0;
+            while (cantidad>0 && contador==0) {
                 try {
                     String query = "insert into detalle(id_orden, id_platillo, cantidad)(select max(id_orden),1," + cantidad + " from orden);";
                     Statement stmt = Conexion.conexion.createStatement();
@@ -94,11 +93,13 @@ this.ordenDAO=ordenDAO;
                     e.printStackTrace();
                 }
                 actualizarTabla();
+                contador++;
             }
         });
         arBoton[1][0].setOnAction(event -> {
             preguntar();
-            while (cantidad>0) {
+            contador=0;
+            while (cantidad>0 && contador==0) {
 
                 try {
                     String query = "insert into detalle(id_orden, id_platillo, cantidad)(select max(id_orden),2," + cantidad + " from orden);";
@@ -108,11 +109,13 @@ this.ordenDAO=ordenDAO;
                     e.printStackTrace();
                 }
                 actualizarTabla();
+                contador++;
             }
         });
         arBoton[0][1].setOnAction(event -> {
             preguntar();
-            while (cantidad>0) {
+            contador=0;
+            while (cantidad>0 &&contador==0) {
                 try {
                     String query = "insert into detalle(id_orden, id_platillo, cantidad)(select max(id_orden),3," + cantidad + " from orden);";
                     Statement stmt = Conexion.conexion.createStatement();
@@ -121,11 +124,13 @@ this.ordenDAO=ordenDAO;
                     e.printStackTrace();
                 }
                 actualizarTabla();
+                contador++;
             }
         });
         arBoton[1][1].setOnAction(event -> {
             preguntar();
-            while (cantidad>0) {
+            contador=0;
+            while (cantidad>0 && contador ==0) {
                 try {
                     String query = "insert into detalle(id_orden, id_platillo, cantidad)(select max(id_orden),4," + cantidad + " from orden);";
                     Statement stmt = Conexion.conexion.createStatement();
@@ -134,6 +139,7 @@ this.ordenDAO=ordenDAO;
                     e.printStackTrace();
                 }
                 actualizarTabla();
+                contador++;
             }
         });
     }
@@ -155,8 +161,10 @@ this.ordenDAO=ordenDAO;
             int cantidad = Integer.parseInt(result.get());
             // Haz algo con el valor
             this.cantidad = cantidad;
-
+        }else {
+            this.cantidad=0;
         }
+
     }
     private void actualizarTabla() {
         tbvOrdenes.setItems(ordenDAO.LISTARCATEGORIAS());

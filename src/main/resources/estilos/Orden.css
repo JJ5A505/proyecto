@@ -1,15 +1,22 @@
 .button{
-    -fx-border-color: rgb(0,0,0);
+    -fx-text-fill: rgb(0,0,0);
+    -fx-border-color: rgb(0,0,1000);
     -fx-border-radius:10;
-    -fx-background-color: linear-gradient(rgb(500,500,500),rgb(200,400,600));
 }
-.panel-primary {
-    background-color: rgb(100,200,500);
-    color: green;
-    /* Otros estilos personalizados */
+.button:hover{
+    -fx-background-color:rgb(0,1000,1000);
+    -fx-font-weight: bold;
+    -fx-font-size: 11 pt;
 }
-/* my-custom-variables.css */
-.root {
-    --primary-color: #ff5733;
-    --font-family: 'Arial', sans-serif;
+.TextField {
+    -fx-font-size: 16px;
+    -fx-text-fill: #222;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-alignment: center;
 }
+
+

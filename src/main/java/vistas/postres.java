@@ -1,8 +1,13 @@
 package vistas;
 
+import com.example.demo1.models.Conexion;
+import com.example.demo1.models.OrdenDAO;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -14,13 +19,22 @@ import org.kordamp.bootstrapfx.scene.layout.Panel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.sql.Statement;
+import java.util.Optional;
 
 public class postres extends Stage {
 
     private Button[][] arBoton = new Button[2][2];
     private GridPane grdTablilla;
+    private int cantidad;
+    private TableView<OrdenDAO>tbvOrdenes;
+    private OrdenDAO ordenDAO;
+    private int id_producto;
+    private int contador;
 
-    public postres(){
+    public postres(TableView<OrdenDAO>tbvOrdenes,OrdenDAO ordenDAO){
+        this.tbvOrdenes=tbvOrdenes;
+        this.ordenDAO=ordenDAO;
         CrearUI();
     }
     private void CrearUI() {
@@ -47,6 +61,7 @@ public class postres extends Stage {
     private void tblpostres() {
         String[] arImagenes = {"pastel.jpg", "helado.jpg", "crepa.jpg", "pay.jpg"};
         grdTablilla = new GridPane();
+        grdTablilla.getStylesheets().add(getClass().getResource("/estilos/botones.css").toString());
         int pos = 0;
         for (int i = 0; i <2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -67,6 +82,67 @@ public class postres extends Stage {
                 grdTablilla.add(arBoton[i][j], i, j);
 
             }
+        }
+arBoton[0][0].setOnAction(event -> {
+    id_producto=9;
+    preguntar();
+    insert();
+});
+        arBoton[0][1].setOnAction(event -> {
+            id_producto=11;
+            preguntar();
+            insert();
+        });
+        arBoton[1][0].setOnAction(event -> {
+            id_producto=12;
+            preguntar();
+            insert();
+        });
+        arBoton[1][1].setOnAction(event -> {
+            id_producto=10;
+            preguntar();
+            insert();
+        });
+
+    }
+    private void preguntar() {
+        TextField txtCantidad = new TextField();
+        txtCantidad.setPromptText("Cantidad");
+        txtCantidad.setText(String.valueOf(1));
+
+        // Abre una ventana emergente
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Cantidad");
+        dialog.setContentText("Ingrese la cantidad");
+        dialog.getEditor().setText(txtCantidad.getText());
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            // El usuario ingresó un valor
+            int cantidad = Integer.parseInt(result.get());
+            // Haz algo con el valor
+            this.cantidad = cantidad;
+        }else{
+            this.cantidad=0;
+        }
+    }
+    private void actualizarTabla() {
+        tbvOrdenes.setItems(ordenDAO.LISTARCATEGORIAS());
+        tbvOrdenes.refresh();
+    }
+    private void insert(){
+        contador=0;
+        while (cantidad>0 && contador==0){
+            try {
+                String query = "insert into detalle(id_orden, id_platillo, cantidad)(select max(id_orden),"+id_producto+"," + cantidad + " from orden);";
+                Statement stmt = Conexion.conexion.createStatement();
+                stmt.execute(query);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            actualizarTabla();
+            contador++;
         }
     }
 }
