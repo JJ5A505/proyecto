@@ -21,6 +21,7 @@ public class Restaurante extends Stage {
     private TableView<CategoriasDAO> tbvCategorias;
     private Button btnAgregar,btnElininar;
     private CategoriasDAO categoriasDAO;
+
     public Restaurante(){
         CrearUI();
         Panel panel = new Panel("This is the title");

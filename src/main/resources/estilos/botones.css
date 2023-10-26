@@ -6,5 +6,5 @@
 .button:hover{
     -fx-background-color:rgb(0,1000,1000);
     -fx-font-weight: bold;
-    -fx-font-size: 30 pt;
+
 }

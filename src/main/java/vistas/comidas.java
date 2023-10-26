@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
@@ -30,6 +32,8 @@ public class comidas extends Stage  {
     private TableView<OrdenDAO> tbvOrdenes;
     private OrdenDAO ordenDAO;
     private int contador;
+    private Button agregar,quitar;
+    private VBox vBox;
 
     public comidas(TableView<OrdenDAO>tbvOrdenes, OrdenDAO ordenDAO) {
 this.tbvOrdenes=tbvOrdenes;
@@ -41,7 +45,7 @@ this.ordenDAO=ordenDAO;
         tblcomidas();
         Panel panel = new Panel("Comidas");
         panel.getStyleClass().add("panel-primary");
-        BorderPane content = new BorderPane();
+        BorderPane content = new BorderPane(vBox);
         content.setPadding(new Insets(20));
         content.setCenter(grdTablilla);
         panel.setBody(content);
@@ -142,6 +146,7 @@ this.ordenDAO=ordenDAO;
                 contador++;
             }
         });
+
     }
 
     private void preguntar() {
@@ -161,11 +166,11 @@ this.ordenDAO=ordenDAO;
             int cantidad = Integer.parseInt(result.get());
             // Haz algo con el valor
             this.cantidad = cantidad;
-        }else {
+        }else{
             this.cantidad=0;
         }
-
     }
+
     private void actualizarTabla() {
         tbvOrdenes.setItems(ordenDAO.LISTARCATEGORIAS());
         tbvOrdenes.refresh();
