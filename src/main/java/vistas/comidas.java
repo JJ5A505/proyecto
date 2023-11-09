@@ -34,6 +34,7 @@ public class comidas extends Stage  {
     private int contador;
     private Button agregar,quitar;
     private VBox vBox;
+    private Cantidad cnt;
 
     public comidas(TableView<OrdenDAO>tbvOrdenes, OrdenDAO ordenDAO) {
 this.tbvOrdenes=tbvOrdenes;
@@ -150,25 +151,7 @@ this.ordenDAO=ordenDAO;
     }
 
     private void preguntar() {
-        TextField txtCantidad = new TextField();
-        txtCantidad.setPromptText("Cantidad");
-        txtCantidad.setText(String.valueOf(1));
-
-        // Abre una ventana emergente
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Cantidad");
-        dialog.setContentText("Ingrese la cantidad");
-        dialog.getEditor().setText(txtCantidad.getText());
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            // El usuario ingresó un valor
-            int cantidad = Integer.parseInt(result.get());
-            // Haz algo con el valor
-            this.cantidad = cantidad;
-        }else{
-            this.cantidad=0;
-        }
+   cnt=new Cantidad();
     }
 
     private void actualizarTabla() {

@@ -11,7 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -56,20 +55,20 @@ public class Loteria extends Stage {
             , "estrella.jpg", "gorrito.jpg", "jaras.jpg", "mateceta.jpg", "nopal.jpg", "palma.jpg"
             , "pino.jpg", "sandia.jpg", "corazon.jpg", "gallo.jpg", "diablo.jpg"};
     String[][] arImagenes = {arImagenes0, arImagenes1, arImagenes2, arImagenes3, arImagenes4, arImagenes5};
-    String noCarta = "arImagenes" + indice;
     private Label lblTablilla; // Agregar Label para mostrar el texto
-    String[] arrcartas ={"sandia.jpg", "rana.jpg", "pino.jpg", "pescado.jpg", "nopal.jpg"
-            , "mateceta.jpg", "gorrito.jpg", "garza.jpg", "escalera.jpg", "diablo.jpg", "corazon.jpg"
-            , "camaron.jpg", "barril.jpg", "alacran.jpg", "dama.jpg", "catrin.jpg",
-            "bandera.jpg", "borracho.jpg", "campana.jpg", "cantarito.jpg", "cazo.jpg"
-            , "cotorro.jpg", "estrella.jpg", "gallo.jpg", "jaras.jpg", "luna.jpg", "mundo.jpg"
-            , "musico.jpg", "negrito.jpg", "palma.jpg", "sirena.jpg", "venado.jpg"};
+    String[] arrcartas ={"alacran.jpg","bandera.jpg","barril.jpg","borracho.jpg"
+            ,"camaron.jpg","campana.jpg","cantarito.jpg","catrin.jpg"
+            ,"cazo.jpg","corazon.jpg","cotorro.jpg","dama.jpg"
+            ,"diablo.jpg","escalera.jpg","estrella.jpg","gallo.jpg"
+            ,"garza.jpg","gorrito.jpg","jaras.jpg","luna.jpg"
+            ,"mateceta.jpg","mundo.jpg","musico.jpg","negrito.jpg",
+            "nopal.jpg","palma.jpg","pescado.jpg","pino.jpg","rana.jpg","sandia.jpg"
+            ,"sirena.jpg","venado.jpg"};
     private java.util.Timer timer;
     private String [] ordenCartas;
     private int posicionActual = 0;
-
-    private boolean[] cartasMarcadas;
     private int contadorAciertos = 0;
+    private boolean bandera=false;
 
 
     public Loteria() {
@@ -78,11 +77,6 @@ public class Loteria extends Stage {
         escena = new Scene(hPrincipal, 800, 600);
         this.setTitle("Loteria");
         this.setScene(escena);
-
-        // Inicializar el arreglo this.cartasMarcadas con valores booleanos en false
-        this.cartasMarcadas = new boolean[arrcartas.length];
-        Arrays.fill(this.cartasMarcadas, false);
-
         this.show();
     }
 
@@ -96,10 +90,12 @@ public class Loteria extends Stage {
         btnAnterior = new Button("<");
         btnAnterior.setOnAction(event -> cambiarArreglo(-1));
         btnAnterior.setPrefSize(200, 100);
+        btnAnterior.getStylesheets().add(getClass().getResource("/estilos/calculadora.css").toString());
 
         btnSiguiente = new Button(">");
         btnSiguiente.setOnAction(event -> cambiarArreglo(1));
         btnSiguiente.setPrefSize(200, 100);
+        btnSiguiente.getStylesheets().add(getClass().getResource("/estilos/calculadora.css").toString());
 
         hBtnSeleccion = new HBox(btnAnterior, btnSiguiente);
         vTablilla = new VBox(grdTablilla, hBtnSeleccion);
@@ -108,6 +104,7 @@ public class Loteria extends Stage {
         hPrincipal = new HBox(vTablilla, vMazo);
         hPrincipal.setPadding(new Insets(20));
         hPrincipal.setSpacing(15);
+
     }
 
     private void cambiarArreglo(int incremento) {
@@ -130,6 +127,7 @@ public class Loteria extends Stage {
         imgCarta.setFitHeight(450);
         btnIniciar = new Button("Iniciar");
         btnIniciar.setPrefSize(300, 50);
+        btnIniciar.getStylesheets().add(getClass().getResource("/estilos/calculadora.css").toString());
         btnIniciar.setOnAction(event -> {
             if (timer == null){
                 iniciarJuego();
@@ -142,29 +140,47 @@ public class Loteria extends Stage {
     }
 
     private boolean iniciarJuego() {
-        mezclarOrdenCartas();
-        btnAnterior.setDisable(true);
-        btnSiguiente.setDisable(true);
-        btnIniciar.setDisable(true);
-
-        timer = new java.util.Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (posicionActual < ordenCartas.length) {
-                    Platform.runLater(() -> mostrarCartaEnMazo(ordenCartas[posicionActual]));
-                    posicionActual++;
-                } else {
-                    timer.cancel();
-                    btnAnterior.setDisable(false);
-                    btnSiguiente.setDisable(false);
-                    btnIniciar.setDisable(false);
-                }
+        bandera=true;
+        for (int a = 0; a < 4; a++) {
+            for (int b = 0; b < 4; b++) {
+                arBtnTablilla[a][b].setDisable(false);
             }
-        }, 0, 2000);
+        }
+        if (contadorAciertos != 16) {
+            contadorAciertos = 0;
+            mezclarOrdenCartas();
+            btnAnterior.setDisable(true);
+            btnSiguiente.setDisable(true);
+            btnIniciar.setDisable(true);
 
+            timer = new java.util.Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    if (posicionActual< ordenCartas.length-1) {
+                        Platform.runLater(() -> mostrarCartaEnMazo(ordenCartas[posicionActual]));
+                        posicionActual++;
+
+                    } else {
+                        timer.cancel();
+                        btnAnterior.setDisable(false);
+                        btnSiguiente.setDisable(false);
+                        btnIniciar.setDisable(false);
+                    }
+                    if(contadorAciertos==16){
+                        timer.cancel();
+                        btnAnterior.setDisable(false);
+                        btnSiguiente.setDisable(false);
+                        btnIniciar.setDisable(false);
+                    }
+                }
+            }, 0, 2000);
+        }
+        bandera=false;
         return false;
     }
+
+
 
     private void reiniciarJuego(){
         posicionActual=0;
@@ -193,34 +209,15 @@ public class Loteria extends Stage {
             ordenCartas[i] = arrcartas[listaOrden.get(i)];
         }
     }
-
-    private void verificarCoincidenciaCarta(Button button) {
-        if (!cartasMarcadas[posicionActual - 1]) {
-            String rutaCartaTablilla = obtenerRutaCarta(button);
-            String rutaCartaMazo = "src/main/java/imagenes/" + ordenCartas[posicionActual - 1]; // Ruta de la carta actual en el mazo
-            if (rutaCartaTablilla != null && rutaCartaTablilla.equals(rutaCartaMazo)) {
-                cartasMarcadas[posicionActual - 1] = true;
-                contadorAciertos++; // Incrementar el contador de aciertos
-                verificarGanador(); // Verificar si se ha ganado
-            }
-        }
-    }
-
-    private String obtenerRutaCarta(Button button) {
-        ImageView imageView = (ImageView) button.getGraphic();
-        if (imageView != null) {
-            Image image = imageView.getImage();
-            return image.getUrl();
-        }
-        return null;
-    }
-
     private void CrearTablilla() {
         grdTablilla.getChildren().clear();
 
         int pos = 0;
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
+                final int fila = i;
+                final int columna = j;
                 ImageView imv;
 
                 try {
@@ -237,11 +234,30 @@ public class Loteria extends Stage {
                     imv.setFitWidth(100);
                     arBtnTablilla[i][j] = new Button();
                     arBtnTablilla[i][j].setGraphic(imv);
-                    arBtnTablilla[i][j].setOnAction(event -> {
-                        verificarCoincidenciaCarta((Button) event.getSource());
-                    });
                     arBtnTablilla[i][j].setPrefSize(100, 140);
                     grdTablilla.add(arBtnTablilla[i][j], i, j);
+                    arBtnTablilla[i][j].getStylesheets().add(getClass().getResource("/estilos/botones.css").toString());
+                    arBtnTablilla[i][j].setDisable(true);
+                    if(bandera=true){
+                        arBtnTablilla[i][j].setOnAction(event -> {
+                            if (posicionActual < ordenCartas.length - 1) {
+                                String cartaEnMazo = ordenCartas[posicionActual];
+                                String cartaEnTablilla = arImagenes[indice][fila * 4 + columna];
+                                if (cartaEnMazo.equals(cartaEnTablilla)) {
+                                    contadorAciertos++;
+                                    arBtnTablilla[fila][columna].setDisable(true);
+                                    if (contadorAciertos == 16) {
+                                        mensaje();
+                                        System.out.println("has ganado");
+
+
+                                    }
+                                    System.out.println(contadorAciertos);
+
+                                }
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -250,22 +266,11 @@ public class Loteria extends Stage {
         lblTablilla.setStyle("-fx-font-size: 25px; -fx-text-fill: rgb(0, 100, 100);");
         grdTablilla.add(lblTablilla, 2, 4);
     }
-
-
-    private void verificarGanador() {
-        if (contadorAciertos == 16) {
-            mostrarMensaje("¡Has ganado!");
-            boolean jugadorGano = true;
-            if (timer != null) {
-                timer.cancel();
-            }
-        }
-    }
-    private void mostrarMensaje(String mensaje) {
+    public void mensaje(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Resultado del Juego");
+        alert.setTitle("Loteria!!");
         alert.setHeaderText(null);
-        alert.setContentText(mensaje);
+        alert.setContentText("Has ganado");
         alert.showAndWait();
     }
 }

@@ -1,3 +1,8 @@
 .Label{
     -fx-text-fill: rgb(0,500,500);
 }
+.scene {
+    background-color: rgb(70,70,100);
+}
+
+

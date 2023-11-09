@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import sistemasOperativos.Memoria;
 import vistas.*;
 import com.example.demo1.models.Conexion;
 
@@ -16,8 +17,8 @@ public class HelloApplication extends Application {
     private Scene escena;
     private BorderPane borderPane;
     private MenuBar menuBar;
-    private Menu menuParcial1, menuParcial2,menuParcial3,menuSalir;
-    private MenuItem mitCalculadora,mitLoteria,mitSalir,mitRestaurante,mitOrden,mitPista;
+    private Menu menuParcial1, menuParcial2,menuParcial3,menuSistemasOperativos,menuSalir;
+    private MenuItem mitCalculadora,mitLoteria,mitSalir,mitRestaurante,mitOrden,mitPista,mitMemoria;
 
     private void CrearUI(){
         mitCalculadora = new MenuItem("Calculadora");
@@ -44,12 +45,16 @@ public class HelloApplication extends Application {
         menuParcial3 = new Menu("Parcial 3");
         menuParcial3.getItems().addAll();
 
+        mitMemoria=new MenuItem("Memoria");
+      //  mitMemoria.setOnAction(event -> new Memoria());
+        menuSistemasOperativos=new Menu("Sistemas Operativos");
+        menuSistemasOperativos.getItems().addAll(mitMemoria);
 
         menuSalir = new Menu("Mas opciones");
         mitSalir = new MenuItem("Salir");
         mitSalir.setOnAction((event)->Salir());
         menuSalir.getItems().add(mitSalir);
-        menuBar = new MenuBar(menuParcial1,menuParcial2,menuParcial3,menuSalir);
+        menuBar = new MenuBar(menuParcial1,menuParcial2,menuParcial3,menuSistemasOperativos,menuSalir);
     }
 
     private void Salir() {
@@ -65,7 +70,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
 
 
-        connectToDatabase();
+       // connectToDatabase();
         CrearUI();
         borderPane = new BorderPane();
         borderPane.setTop(menuBar);
