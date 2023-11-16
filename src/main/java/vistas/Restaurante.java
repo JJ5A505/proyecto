@@ -83,4 +83,5 @@ public class Restaurante extends Stage {
         tbvCategorias.getColumns().addAll(tbcIdCat,tbcNomCat,tbcEditar,tbcEliminar);
         tbvCategorias.setItems(categoriasDAO.LISTARCATEGORIAS());
     }
+
 }

@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
     private BorderPane borderPane;
     private MenuBar menuBar;
     private Menu menuParcial1, menuParcial2,menuParcial3,menuSistemasOperativos,menuSalir;
-    private MenuItem mitCalculadora,mitLoteria,mitSalir,mitRestaurante,mitOrden,mitPista,mitMemoria;
+    private MenuItem mitCalculadora,mitLoteria,mitSalir,mitRestaurante,mitOrden,mitPista,mitMemoria,mitImpresora;
 
     private void CrearUI(){
         mitCalculadora = new MenuItem("Calculadora");
@@ -38,15 +38,17 @@ public class HelloApplication extends Application {
         mitOrden.setOnAction(event -> new Orden());
         mitPista=new MenuItem("Pista");
         mitPista.setOnAction(event -> new PistaAtletismo());
+        mitImpresora=new MenuItem("Impresora");
+        mitImpresora.setOnAction(event -> new Impresora());
         menuParcial2 = new Menu("Parcial 2");
-        menuParcial2.getItems().addAll(mitRestaurante,mitOrden,mitPista);
+        menuParcial2.getItems().addAll(mitRestaurante,mitOrden,mitPista,mitImpresora);
 
 
         menuParcial3 = new Menu("Parcial 3");
         menuParcial3.getItems().addAll();
 
         mitMemoria=new MenuItem("Memoria");
-      //  mitMemoria.setOnAction(event -> new Memoria());
+        mitMemoria.setOnAction(event -> new Memoria());
         menuSistemasOperativos=new Menu("Sistemas Operativos");
         menuSistemasOperativos.getItems().addAll(mitMemoria);
 
@@ -70,7 +72,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
 
 
-       // connectToDatabase();
+        connectToDatabase();
         CrearUI();
         borderPane = new BorderPane();
         borderPane.setTop(menuBar);

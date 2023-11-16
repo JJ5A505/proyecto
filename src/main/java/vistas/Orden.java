@@ -36,7 +36,6 @@ public class Orden extends Stage {
     private HBox hBoxprincipal;
     private Button btnGuardar, btnNuevaCategoria, btnNuevoPlatillo;
     private Scene scene;
-    private Restaurante restaurante;
 
 
     public Orden() {
@@ -94,7 +93,7 @@ public class Orden extends Stage {
         btnNuevoPlatillo.setLineSpacing(15);
         btnNuevoPlatillo.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         btnNuevoPlatillo.setPrefSize(100, 50);
-       // btnNuevoPlatillo.setOnAction(event ->);
+        btnNuevoPlatillo.setOnAction(event ->new Platillo());
         vBoxtable = new VBox(tbvOrden);
         vBoxtable.getStylesheets().add(getClass().getResource("/estilos/calculadora.css").toString());
 

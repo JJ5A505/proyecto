@@ -1,0 +1,5 @@
+.vbox{
+    -fx-border-color: black; /* Color del borde */
+    -fx-border-width: 2px;   /* Ancho del borde */
+    -fx-padding: 10px;
+}

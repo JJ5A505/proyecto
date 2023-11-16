@@ -69,6 +69,7 @@ public class Loteria extends Stage {
     private int posicionActual = 0;
     private int contadorAciertos = 0;
     private boolean bandera=false;
+    private boolean bandera2=false;
 
 
     public Loteria() {
@@ -141,6 +142,7 @@ public class Loteria extends Stage {
 
     private boolean iniciarJuego() {
         bandera=true;
+
         for (int a = 0; a < 4; a++) {
             for (int b = 0; b < 4; b++) {
                 arBtnTablilla[a][b].setDisable(false);
@@ -163,9 +165,11 @@ public class Loteria extends Stage {
 
                     } else {
                         timer.cancel();
+                        bandera2=true;
                         btnAnterior.setDisable(false);
                         btnSiguiente.setDisable(false);
                         btnIniciar.setDisable(false);
+
                     }
                     if(contadorAciertos==16){
                         timer.cancel();
@@ -173,9 +177,11 @@ public class Loteria extends Stage {
                         btnSiguiente.setDisable(false);
                         btnIniciar.setDisable(false);
                     }
+
                 }
             }, 0, 2000);
         }
+
         bandera=false;
         return false;
     }
@@ -249,14 +255,14 @@ public class Loteria extends Stage {
                                     if (contadorAciertos == 16) {
                                         mensaje();
                                         System.out.println("has ganado");
-
-
                                     }
+
                                     System.out.println(contadorAciertos);
 
                                 }
                             }
                         });
+
                     }
                 }
             }
@@ -266,6 +272,15 @@ public class Loteria extends Stage {
         lblTablilla.setStyle("-fx-font-size: 25px; -fx-text-fill: rgb(0, 100, 100);");
         grdTablilla.add(lblTablilla, 2, 4);
     }
+
+    private void mensaje2() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(":(");
+        alert.setHeaderText(null);
+        alert.setContentText("Has perdido");
+        alert.showAndWait();
+    }
+
     public void mensaje(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Loteria!!");
