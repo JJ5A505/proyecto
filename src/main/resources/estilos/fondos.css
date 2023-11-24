@@ -1,4 +1,11 @@
-.panel-primary {
-    background-color: rgb(70,70,70);
+.progress-bar {
+    width: 100px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+.progress-bar .progress-bar-value {
+    background-color: #000;
 }
 
