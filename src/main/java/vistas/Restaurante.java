@@ -19,7 +19,7 @@ import org.kordamp.bootstrapfx.scene.layout.Panel;
 public class Restaurante extends Stage {
     private VBox vBox;
     private TableView<CategoriasDAO> tbvCategorias;
-    private Button btnAgregar,btnElininar;
+    private Button btnAgregar,btnEliminar;
     private CategoriasDAO categoriasDAO;
 
     public Restaurante(){

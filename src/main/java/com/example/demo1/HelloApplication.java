@@ -72,7 +72,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
 
 
-       // connectToDatabase();
+        connectToDatabase();
         CrearUI();
         borderPane = new BorderPane();
         borderPane.setTop(menuBar);

@@ -84,7 +84,7 @@ public class Orden extends Stage {
             }
 
         });
-        btnNuevaCategoria = new Button("Nueva Categoria");
+        btnNuevaCategoria = new Button("Categorias");
         btnNuevaCategoria.setLineSpacing(15);
         btnNuevaCategoria.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
         btnNuevaCategoria.setPrefSize(100, 50);
@@ -206,7 +206,5 @@ public class Orden extends Stage {
         tbvOrden.setItems(ordenDAO.LISTARCATEGORIAS());
     }
 
-    public void agregar_platillo() {
 
-    }
 }

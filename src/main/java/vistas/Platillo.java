@@ -1,14 +1,14 @@
 package vistas;
 
-import com.example.demo1.Components.ButtonCell;
-import com.example.demo1.models.CategoriasDAO;
-import com.example.demo1.models.Conexion;
+import com.example.demo1.Components.ButtonCellPlatillo;
+import com.example.demo1.models.PlatillosDAO;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.kordamp.bootstrapfx.BootstrapFX;
@@ -17,72 +17,69 @@ import org.kordamp.bootstrapfx.scene.layout.Panel;
 import java.sql.Statement;
 
 public class Platillo extends Stage {
-    private HBox hBoxprincipal;
-    private Scene scene;
-    private Restaurante restaurante;
-    private Button mostrarcat, btnaceptar;
-    private TextField txtfid, textfnom ,txtfpre;
+    private VBox vBox;
+    private TableView<PlatillosDAO> tbvPlatillos;
+    private Button btnAgregar,btnEliminar;
+    private PlatillosDAO platillosDAO;
+    public Platillo(){
 
-    public Platillo() {
         CrearUI();
-        scene = new Scene(hBoxprincipal, 1000, 600);
-        Panel panel = new Panel("Menu ");
+        Panel panel = new Panel("This is the title");
         panel.getStyleClass().add("panel-primary");                            //(2)
         BorderPane content = new BorderPane();
         content.setPadding(new Insets(20));
-        content.setCenter(hBoxprincipal);
+        content.setCenter(vBox);
+        panel.setBody(content);
         panel.setBody(content);
         Scene scene = new Scene(panel);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());       //(3)
-        this.setTitle("Cafeteria XD");
+        this.setTitle("BootstrapFX");
         this.setScene(scene);
         this.sizeToScene();
         this.show();
     }
-
-    public void CrearUI() {
-        mostrarcat = new Button("Mostrar Categorias");
-        mostrarcat.setLineSpacing(15);
-        mostrarcat.setPrefSize(100, 50);
-        mostrarcat.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
-        mostrarcat.setOnAction(event -> new Restaurante());
-        txtfid = new TextField();
-        txtfid.setPromptText("ID de la categoria");
-        textfnom = new TextField();
-        textfnom.setPromptText("Nombre Platillo");
-        txtfpre=new TextField();
-        txtfpre.setPromptText("Precio del platillo");
-        btnaceptar = new Button("Aceptar");
-        btnaceptar.setLineSpacing(15);
-        btnaceptar.setPrefSize(100, 50);
-        btnaceptar.getStylesheets().add(getClass().getResource("/estilos/Orden.css").toString());
-        btnaceptar.setOnAction(event -> insert());
-
-
-        hBoxprincipal = new HBox(mostrarcat, btnaceptar, txtfid, textfnom,txtfpre);
-
+    private void CrearUI(){
+        platillosDAO=new PlatillosDAO();
+        tbvPlatillos=new TableView<PlatillosDAO>();
+        CreateTable();
+        btnAgregar=new Button("Agregar");
+        btnAgregar.getStylesheets().setAll("btn","btn-success");
+        btnAgregar.setOnAction((event) -> new PlatillosForm(tbvPlatillos, null));
+        vBox=new VBox(tbvPlatillos,btnAgregar);
     }
+private void CreateTable(){
+        TableColumn<PlatillosDAO,Integer>tbcIdPla = new TableColumn<PlatillosDAO,Integer>("ID");
+        tbcIdPla.setCellValueFactory(new PropertyValueFactory<>("idPlatillo"));
 
-    private void insert() {
-        String id = txtfid.getText();
-        String nombre = textfnom.getText();
-        String precio= txtfpre.getText();
-        try {
-            String query = "insert into platillos(id_platillo,nombre,precio,id_categoria)(select max(id_platillo)+1,"+"'"+nombre+"'"+"," + precio + "," + id + " from platillos);";
-            Statement stmt = Conexion.conexion.createStatement();
-            stmt.execute(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Platillos");
-        alert.setHeaderText(null);
-        alert.setContentText("Si pusiste los datos correctas se hizo correctamente\n" +
-                "sino caso contrario\n" +
-                "puedes cambiar los datos para insertar otro platillo");
+        TableColumn<PlatillosDAO,String>tbcNombre = new TableColumn<PlatillosDAO,String>("Platillos");
+        tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nomPlatillo"));
 
-        alert.showAndWait();
+        TableColumn<PlatillosDAO,Double>tbcPrecio = new TableColumn<PlatillosDAO,Double>("Precio");
+        tbcPrecio.setCellValueFactory(new PropertyValueFactory<>("prePlatillo"));
 
-    }
+        TableColumn<PlatillosDAO,Integer>tbcIdCat = new TableColumn<PlatillosDAO,Integer>("IdCategoria");
+        tbcIdCat.setCellValueFactory(new PropertyValueFactory<>("idCat"));
+
+        TableColumn<PlatillosDAO,String>tbcEditar = new TableColumn<>("Editar");
+        tbcEditar.setCellFactory(
+                new Callback<TableColumn<PlatillosDAO, String>, TableCell<PlatillosDAO, String>>() {
+                    @Override
+                    public TableCell<PlatillosDAO, String> call(TableColumn<PlatillosDAO, String> param) {
+                        return new ButtonCellPlatillo(1);
+                    }
+                }
+        );
+        TableColumn<PlatillosDAO,String>tbcEliminar = new TableColumn<>("Eliminar");
+        tbcEliminar.setCellFactory(
+
+                new Callback<TableColumn<PlatillosDAO, String>, TableCell<PlatillosDAO, String>>() {
+                    @Override
+                    public TableCell<PlatillosDAO, String> call(TableColumn<PlatillosDAO, String> param) {
+                        return new ButtonCellPlatillo(2);
+                    }
+                }
+        );
+        tbvPlatillos.getColumns().addAll(tbcIdPla,tbcNombre,tbcPrecio,tbcIdCat,tbcEditar,tbcEliminar);
+        tbvPlatillos.setItems(platillosDAO.LISTARPLATILLOS());
 }
-
+}
